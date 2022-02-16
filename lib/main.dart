@@ -29,7 +29,7 @@ void main() async{
   AwesomeNotifications().initialize(null, [notificationChannel,notificationChanneldeux,notificationChanneltrois]);
   AwesomeNotifications().isNotificationAllowed().then((value) {
 
-  })
+  });
   await Firebase.initializeApp();
   runApp(const MyApp());
 }
