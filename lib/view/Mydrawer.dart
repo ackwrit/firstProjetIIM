@@ -28,22 +28,7 @@ class myDrawerState extends State<myDrawer>{
   String imageFileName = "";
 
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    FirestoreHelper().getIdentifiant().then((value){
-      setState(() {
-        identifiant = value;
-      });
-      FirestoreHelper().getUser(identifiant!).then((value){
-        setState(() {
-          utilisateur = value;
-        });
-      });
-    });
 
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +73,6 @@ class myDrawerState extends State<myDrawer>{
               //appuyer longtemps ça doit récuperer une image sur mon téléphone
               FilePickerResult? resultat = await FilePicker.platform.pickFiles(
                 withData: true,
-                type: FileType.image
               );
               if(resultat!=null){
                 setState(() {

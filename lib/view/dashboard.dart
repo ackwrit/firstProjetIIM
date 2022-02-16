@@ -1,3 +1,5 @@
+import 'package:firstprojetimmw/controller/allMorecaux.dart';
+import 'package:firstprojetimmw/controller/character.dart';
 import 'package:firstprojetimmw/view/Mydrawer.dart';
 import 'package:flutter/material.dart';
 import 'package:dot_navigation_bar/dot_navigation_bar.dart';
@@ -17,16 +19,27 @@ class dashboard extends StatefulWidget{
 
 
 class dashboardState extends State<dashboard>{
-  int currentIndex = 0;
+  int currentIndex = 1;
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
       drawer: myDrawer(),
 
+
+
       appBar: AppBar(
         centerTitle: true,
         title: Text("Nouvelle page"),
+        actions: [
+          IconButton(
+              onPressed: (){
+                //Créer la fonction d'enrgister des morecaux dans la base donnée
+              },
+              icon: Icon(Icons.add)
+          )
+        ],
+
       ),
       body: bodyPage(currentIndex),
       bottomNavigationBar: DotNavigationBar(
@@ -59,8 +72,8 @@ class dashboardState extends State<dashboard>{
 
   Widget bodyPage(int value){
     switch (value) {
-      case 0 : return Text("Afficher de la musique");
-      case 1: return Text("Affficher les personnes connectés");
+      case 0 : return allMorceaux();
+      case 1: return character();
       case 2: return Text("Afficher une carte");
       default: return Text("Aucune info");
 

@@ -10,6 +10,7 @@ class FirestoreHelper{
   //Attributs
   final auth = FirebaseAuth.instance;
   final fire_user = FirebaseFirestore.instance.collection("Users");
+  final fire_morceau = FirebaseFirestore.instance.collection("Morceaux");
   final firestorage = FirebaseStorage.instance;
 
 
