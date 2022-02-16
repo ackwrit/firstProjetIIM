@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>Cette application accéder à votre localisation</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>Cette application accéder à votre localisation</string>
     <key>NSAppleMusicUsageDescription</key>
     <string>musiqueYnov souhaite accéder à votre musique</string>
     <key>NSPhotoLibraryAddUsageDescription</key>

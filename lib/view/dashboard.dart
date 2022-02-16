@@ -1,4 +1,5 @@
 import 'package:firstprojetimmw/controller/addMorceau.dart';
+import 'package:firstprojetimmw/controller/afficherCarte.dart';
 import 'package:firstprojetimmw/controller/allMorecaux.dart';
 import 'package:firstprojetimmw/controller/character.dart';
 import 'package:firstprojetimmw/view/Mydrawer.dart';
@@ -80,7 +81,7 @@ class dashboardState extends State<dashboard>{
     switch (value) {
       case 0 : return allMorceaux();
       case 1: return character();
-      case 2: return Text("Afficher une carte");
+      case 2: return afficherCarte();
       default: return Text("Aucune info");
 
     }

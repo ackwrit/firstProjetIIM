@@ -187,7 +187,7 @@ class detailMorceauState extends State<detailMorceau>{
     audioPlayer.setUrl(widget.musique.song_path);
     positionStream = audioPlayer.onAudioPositionChanged.listen((event) {
       setState(() {
-        position =event;
+        position = event;
       });
     });
 
