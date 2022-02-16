@@ -41,6 +41,11 @@ addUser(String uid, Map<String,dynamic> map){
   fire_user.doc(uid).set(map);
 }
 
+
+addMusique(String uid,Map<String,dynamic> map){
+  fire_morceau.doc(uid).set(map);
+}
+
 updateUser(String uid,Map<String,dynamic> map){
   fire_user.doc(uid).update(map);
 }
@@ -70,6 +75,14 @@ Future <String >stockageImage(String nomImage,Uint8List data) async {
   String urlChemin = await download.ref.getDownloadURL();
   return urlChemin;
 }
+
+
+
+  Future <String >stockageAudio(String nomAudio,Uint8List data) async {
+    TaskSnapshot download = await firestorage.ref("Musique/$nomAudio").putData(data);
+    String urlChemin = await download.ref.getDownloadURL();
+    return urlChemin;
+  }
 
 
 }

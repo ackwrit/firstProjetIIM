@@ -1,3 +1,4 @@
+import 'package:firstprojetimmw/controller/addMorceau.dart';
 import 'package:firstprojetimmw/controller/allMorecaux.dart';
 import 'package:firstprojetimmw/controller/character.dart';
 import 'package:firstprojetimmw/view/Mydrawer.dart';
@@ -35,6 +36,11 @@ class dashboardState extends State<dashboard>{
           IconButton(
               onPressed: (){
                 //Créer la fonction d'enrgister des morecaux dans la base donnée
+                Navigator.push(context, MaterialPageRoute(
+                    builder: (BuildContext context){
+                      return addMorceau();
+                    }
+                ));
               },
               icon: Icon(Icons.add)
           )
