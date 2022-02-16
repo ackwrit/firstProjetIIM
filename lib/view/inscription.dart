@@ -1,4 +1,6 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firstprojetimmw/functions/firestoreHelper.dart';
+import 'package:firstprojetimmw/view/dashboard.dart';
 import 'package:flutter/material.dart';
 
 class register extends StatefulWidget{
@@ -118,6 +120,21 @@ class registerState extends State<register>{
         ElevatedButton(
             onPressed: (){
               FirestoreHelper().CreationUser(mail: mail, password: password,prenom: prenom,nom: nom);
+              AwesomeNotifications().createNotification(
+                  content: NotificationContent(
+                      id: 89,
+                      channelKey: "basic_channel",
+                    body: 'Votre compte a bien été créé',
+
+                  ),
+
+              );
+              Navigator.push(context, MaterialPageRoute(
+                  builder:(BuildContext context){
+                    return dashboard(mail, password);
+                  }
+              ));
+
 
             },
             child: Text("Inscription")

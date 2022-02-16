@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firstprojetimmw/functions/firestoreHelper.dart';
 import 'package:firstprojetimmw/view/dashboard.dart';
@@ -9,6 +10,26 @@ import 'package:firebase_core/firebase_core.dart';
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   initializeDateFormatting("fr_FR");
+  NotificationChannel notificationChannel = NotificationChannel(
+      channelKey: 'basic_channel',
+      channelName: 'titre de la notification',
+      channelDescription: 'La description de la notifcation'
+  );
+  NotificationChannel notificationChanneldeux = NotificationChannel(
+      channelKey: 'string_channel',
+      channelName: 'titre de la notification',
+      channelDescription: 'La description de la notifcation',
+  );
+  NotificationChannel notificationChanneltrois = NotificationChannel(
+      channelKey: 'double_channel',
+      channelName: 'titre de la notification',
+      channelDescription: 'La description de la notifcation'
+  );
+
+  AwesomeNotifications().initialize(null, [notificationChannel,notificationChanneldeux,notificationChanneltrois]);
+  AwesomeNotifications().isNotificationAllowed().then((value) {
+
+  })
   await Firebase.initializeApp();
   runApp(const MyApp());
 }
@@ -48,6 +69,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    AwesomeNotifications().isNotificationAllowed().then((value) {
+      if(!value){
+        AwesomeNotifications().requestPermissionToSendNotifications();
+      }
+    });
 
     return Scaffold(
       appBar: AppBar(
