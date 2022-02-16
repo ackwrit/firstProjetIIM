@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firstprojetimmw/controller/detailMorceau.dart';
 import 'package:firstprojetimmw/functions/firestoreHelper.dart';
 import 'package:firstprojetimmw/model/Morceau.dart';
 import 'package:flutter/material.dart';
@@ -43,14 +44,24 @@ class allMorceauxState extends State<allMorceaux>{
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2), 
                 itemBuilder: (context,index){
                 Morceau musique = Morceau(documents[index]);
-                return Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    image:DecorationImage(
-                      image: NetworkImage(musique.image_music!)
-                    )
+                return InkWell(
+                  child: Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        image:DecorationImage(
+                            image: NetworkImage(musique.image_music!)
+                        )
+                    ),
                   ),
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (BuildContext context){
+                        return detailMorceau(musique: musique);
+                      }
+                    ));
+                  },
                 );
+
                 }
             );
           }

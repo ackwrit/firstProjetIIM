@@ -42,7 +42,7 @@ addUser(String uid, Map<String,dynamic> map){
 }
 
 
-addMusique(String uid,Map<String,dynamic> map){
+addMusique(String uid, Map<String,dynamic> map){
   fire_morceau.doc(uid).set(map);
 }
 
