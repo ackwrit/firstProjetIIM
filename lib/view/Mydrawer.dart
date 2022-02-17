@@ -7,6 +7,8 @@ import 'package:firstprojetimmw/model/User.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_stripe_payment/flutter_stripe_payment.dart';
+import 'package:http/http.dart' as http;
 
 class myDrawer extends StatefulWidget{
   @override
@@ -26,6 +28,19 @@ class myDrawerState extends State<myDrawer>{
   String imageFilePath = "";
   Uint8List? bytesImage;
   String imageFileName = "";
+  String baseUrl = "https://api.stripe.com/V1/payments_intents";
+  String publicKey = "pk_test_QQ6EqdeL67aoCecNqLETZVke00kNCuIBte";
+  String privateKey = "sk_test_EIn7PcMgJCh005IxqH1Kmmn600n4wtSOKC";
+  final stripePaymentVar = FlutterStripePayment();
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    stripePaymentVar.setStripeSettings(publicKey);
+
+  }
 
 
 
@@ -115,6 +130,31 @@ class myDrawerState extends State<myDrawer>{
 
           SizedBox(height: 10,),
           (utilisateur!.dateNaissance== null)?Text(dateFormat.format(time)):Text(dateFormat.format(utilisateur!.dateNaissance!)),
+
+          SizedBox(height: 10,),
+
+          // Paiement
+          ElevatedButton(
+              onPressed: () async {
+                PaymentResponse response = await stripePaymentVar.addPaymentMethod();
+                Map<String,String> headers ={
+                  'Authorization':'Bearer ${privateKey}',
+                  'Content-Type':'application/x-www-form-urlencoded'
+                };
+                int montant = 100*100;
+
+                Map<String,String> body ={
+                  'amount':'${montant}',
+                  'currency':'eur',
+                  "payment_method":response.paymentMethodId!
+                };
+                String url = '$baseUrl?=$publicKey';
+                var responseUrl = await http.post(Uri.parse(url),headers: headers,body: body);
+
+              },
+              child: Text("Paiement")
+          ),
+
 
           SizedBox(height: 10,),
 
