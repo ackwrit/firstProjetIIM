@@ -62,11 +62,22 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMixin{
   String? mail;
   String? password;
+  AnimationController? animationController;
+  Animation? tourner;
 
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    animationController = AnimationController(
+        vsync: this,
+      duration: Duration(seconds: 2),
+    )..repeat();
+  }
   @override
   Widget build(BuildContext context) {
     AwesomeNotifications().isNotificationAllowed().then((value) {
@@ -94,18 +105,24 @@ class _MyHomePageState extends State<MyHomePage> {
       children: [
 
         //Image du profil
-
-        Container(
-          height: 150,
-          width: 150,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            image: DecorationImage(
-              image: AssetImage("w_zodiac-monsters-fantasy-digital-art-damon-hellandbrand-2.jpg"),
-              fit: BoxFit.fill
-            )
-          )
+        //Animer l'image
+        RotationTransition(
+          turns: animationController!,
+            child: Container(
+              height: 150,
+              width: 150,
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                      image: AssetImage("w_zodiac-monsters-fantasy-digital-art-damon-hellandbrand-2.jpg"),
+                      fit: BoxFit.fill
+                  )
+              )
+          ),
         ),
+
+
+
 
         ////////////////////////////////
 

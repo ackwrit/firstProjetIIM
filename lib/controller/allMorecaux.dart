@@ -45,14 +45,18 @@ class allMorceauxState extends State<allMorceaux>{
                 itemBuilder: (context,index){
                 Morceau musique = Morceau(documents[index]);
                 return InkWell(
-                  child: Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        image:DecorationImage(
-                            image: NetworkImage(musique.image_music!)
-                        )
+                  child: Hero(
+                    child: Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          image:DecorationImage(
+                              image: NetworkImage(musique.image_music!)
+                          )
+                      ),
                     ),
+                    tag: '${musique.id}',
                   ),
+
                   onTap: (){
                     Navigator.push(context, MaterialPageRoute(
                       builder: (BuildContext context){

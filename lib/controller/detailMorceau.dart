@@ -15,23 +15,54 @@ class detailMorceau extends StatefulWidget{
 
 }
 
-class detailMorceauState extends State<detailMorceau>{
+class detailMorceauState extends State<detailMorceau> with SingleTickerProviderStateMixin{
 
   statut lecture=statut.stopped;
+  bool isFav = false;
   AudioPlayer audioPlayer = AudioPlayer();
   Duration position= Duration(seconds: 0);
   StreamSubscription? positionStream;
   StreamSubscription? stateStream;
   double volumeSound = 0.5;
   Duration duree = Duration(seconds: 0);
+  AnimationController? animationController;
+  Animation? colorAnimation;
+  Animation? sizeAnimation;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    animationController = AnimationController(
+        vsync: this,
+      duration: Duration(seconds: 1)
+    );
+    colorAnimation = ColorTween(begin:Colors.grey[400],end: Colors.red).animate(animationController!);
+    sizeAnimation = TweenSequence <double>([
+      TweenSequenceItem(tween: Tween(begin:30,end:50), weight: 50),
+      TweenSequenceItem(tween: Tween(begin:50,end:30), weight: 50)
+    ]).animate(animationController!);
     configurationPlayer();
+    animationController!.addStatusListener((status) {
+      if(status == AnimationStatus.completed){
+        isFav = true;
+      }
+      else
+        {
+          isFav = false;
+        }
+
+    });
   }
 
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    animationController!.dispose();
+    super.dispose();
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,21 +79,48 @@ class detailMorceauState extends State<detailMorceau>{
     return Column(
       children: [
         SizedBox(height: 10,),
-        Center(
-          child: Container(
-            height: 200,
-            width: 200,
+       Hero(
+        child: AnimatedContainer(
+          duration: Duration(seconds: 1),
+          height: (lecture == statut.stopped)?200:300,
+          width: (lecture == statut.stopped)?200:300,
+          child: Positioned(
+            top: 20,
+            child: AnimatedBuilder(
+                animation: animationController!,
+          builder: (BuildContext context, Widget? widget){
+                  return IconButton(
+                    icon: Icon(
+                      Icons.favorite,
+                      size: sizeAnimation!.value,
+                      color: colorAnimation!.value,
+                    ),
+                    onPressed: (){
+                      (isFav)?animationController!.reverse():animationController!.forward();
 
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                image: DecorationImage(
-                    image: NetworkImage(widget.musique.image_music!),
-                    fit: BoxFit.fill
-                )
-            ),
+                    },
 
+                  );
+
+              },
+
+            )
+            ,
           ),
+
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              image: DecorationImage(
+                  image: NetworkImage(widget.musique.image_music!),
+                  fit: BoxFit.fill
+              )
+          ),
+
         ),
+            tag:'${widget.musique.id}'
+        ),
+
+
         SizedBox(height: 10,),
         Text(widget.musique.title),
         Text(widget.musique.author),
