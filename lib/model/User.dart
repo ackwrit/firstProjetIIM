@@ -24,6 +24,20 @@ class Users{
     dateNaissance = map ["DATENAISSANCE"];
 
   }
+  Map<String,dynamic> toMap()
+  {
+    Map <String,dynamic> map;
+    return map ={
+      'NOM':nom,
+      'PRENOM':prenom,
+      'IMAGE':image,
+      'MAIL':mail,
+      'PSEUDO':pseudo,
+      "DATENAISSANCE":dateNaissance
+
+
+    };
+  }
 
 
 

@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firstprojetimmw/controller/chatController.dart';
+import 'package:firstprojetimmw/controller/messageController.dart';
 import 'package:firstprojetimmw/functions/firestoreHelper.dart';
 import 'package:firstprojetimmw/model/User.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +17,7 @@ class character extends StatefulWidget{
 
 class characterState extends State<character>{
   String uid="";
+  Users? moi;
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -29,6 +32,12 @@ class characterState extends State<character>{
     FirestoreHelper().getIdentifiant().then((value){
       setState(() {
         uid = value;
+        FirestoreHelper().getUser(uid).then((value) {
+          setState(() {
+            moi = value;
+          });
+        });
+
       });
     });
     return StreamBuilder<QuerySnapshot>(
@@ -52,19 +61,29 @@ class characterState extends State<character>{
                     return Container();
                   }
                   else {
-                    return Card(
-                      elevation: 5.0,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20)),
-                      color: Colors.green,
-                      child:
-                      ListTile(
-                        title: Text("${utilisateur.prenom} ${utilisateur.nom}"),
-                        subtitle: Text("${utilisateur.mail}"),
+                    return InkWell(
+                      child : Card(
+                        elevation: 5.0,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20)),
+                        color: Colors.green,
+                        child:
+                        ListTile(
+                          title: Text("${utilisateur.prenom} ${utilisateur.nom}"),
+                          subtitle: Text("${utilisateur.mail}"),
+                        ),
+
+
                       ),
-
-
+                      onTap: (){
+                        Navigator.push(context,MaterialPageRoute(
+                            builder: (BuildContext context){
+                              return chatController(moi!,utilisateur);
+                            }
+                        ));
+                      },
                     );
+
                   }
 
 

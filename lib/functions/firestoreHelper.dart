@@ -12,6 +12,8 @@ class FirestoreHelper{
   final fire_user = FirebaseFirestore.instance.collection("Users");
   final fire_morceau = FirebaseFirestore.instance.collection("Morceaux");
   final firestorage = FirebaseStorage.instance;
+  final fire_message= FirebaseFirestore.instance.collection('messages');
+  final fire_conversation= FirebaseFirestore.instance.collection('conversations');
 
 
 
@@ -82,6 +84,65 @@ Future <String >stockageImage(String nomImage,Uint8List data) async {
     TaskSnapshot download = await firestorage.ref("Musique/$nomAudio").putData(data);
     String urlChemin = await download.ref.getDownloadURL();
     return urlChemin;
+  }
+
+
+  sendMessage(String texte,Users user,Users moi){
+    DateTime date=DateTime.now();
+    Map <String,dynamic>map={
+      'from':moi.id,
+      'to':user.id,
+      'texte':texte,
+      'envoiMessage':date
+    };
+
+    String idDate = date.microsecondsSinceEpoch.toString();
+
+    addMessage(map, getMessageRef(moi.id, user.id, idDate));
+
+    addConversation(getConversation(moi.id, user, texte, date), moi.id);
+
+    addConversation(getConversation(user.id, moi, texte, date), user.id);
+
+
+
+
+  }
+
+  Map <String,dynamic> getConversation(String sender,Users partenaire,String texte,DateTime date){
+    Map <String,dynamic> map = partenaire.toMap();
+    map ['idmoi']=sender;
+    map['lastmessage']=texte;
+    map['envoimessage']=date;
+    map['destinateur']=partenaire.id;
+
+    return map;
+
+  }
+
+
+  String getMessageRef(String from,String to,String date){
+    String resultat="";
+    List<String> liste=[from,to];
+    liste.sort((a,b)=>a.compareTo(b));
+    for(var x in liste){
+      resultat += x+"+";
+    }
+    resultat =resultat + date;
+    return resultat;
+
+  }
+
+
+
+  addMessage(Map<String,dynamic> map,String uid){
+    fire_message.doc(uid).set(map);
+
+  }
+
+  addConversation(Map<String,dynamic> map,String uid){
+    fire_conversation.doc(uid).set(map);
+
   }
 
 

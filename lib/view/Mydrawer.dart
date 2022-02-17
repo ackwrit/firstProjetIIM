@@ -116,6 +116,8 @@ class myDrawerState extends State<myDrawer>{
           SizedBox(height: 10,),
           (utilisateur!.dateNaissance== null)?Text(dateFormat.format(time)):Text(dateFormat.format(utilisateur!.dateNaissance!)),
 
+          SizedBox(height: 10,),
+
 
 
 
